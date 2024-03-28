@@ -413,7 +413,7 @@ function main() {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    quantidadeClientes = 10;
+                    quantidadeClientes = 1000;
                     quantidadeCores = 5;
                     quantidadeVendas = 5;
                     return [4 /*yield*/, seedEstoque()];

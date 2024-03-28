@@ -269,7 +269,7 @@ async function seedVendas(quantidade?:number): Promise<void> {
 }
 
 async function main(){
-  const quantidadeClientes = 10
+  const quantidadeClientes = 1000
   const quantidadeCores = 5
   const quantidadeVendas = 5
   await seedEstoque()
