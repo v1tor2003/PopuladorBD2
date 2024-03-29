@@ -351,71 +351,14 @@ function seedEstoque(quantidade) {
         });
     });
 }
-/**
- * Semeia a tabela de vendas.
- * @param {number} quantidade quantidade de vendas a serem inseridas
- * @returns {Promise<void>} a funcao eh um procedimento, sem retorno.
- */
-function seedVendas(quantidade) {
-    return __awaiter(this, void 0, void 0, function () {
-        var qntd, i, min, maxCar, maxCliente, maxFunc, error_8;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    qntd = quantidade ? quantidade : 0;
-                    i = 0;
-                    _a.label = 1;
-                case 1:
-                    if (!(i < qntd)) return [3 /*break*/, 9];
-                    _a.label = 2;
-                case 2:
-                    _a.trys.push([2, 7, , 8]);
-                    min = 1;
-                    return [4 /*yield*/, prisma.carro.count()];
-                case 3:
-                    maxCar = _a.sent();
-                    return [4 /*yield*/, prisma.cliente.count()];
-                case 4:
-                    maxCliente = _a.sent();
-                    return [4 /*yield*/, prisma.funcionario.count()];
-                case 5:
-                    maxFunc = _a.sent();
-                    return [4 /*yield*/, prisma.venda.create({
-                            data: {
-                                id_carro_fk: Math.floor(Math.random() * (maxCar - min + 1)) + min,
-                                id_cliente_fk: Math.floor(Math.random() * (maxCliente - min + 1)) + min,
-                                id_funcionario_fk: Math.floor(Math.random() * (maxFunc - min + 1)) + min,
-                                data_venda: faker_1.fakerPT_BR.date.between({
-                                    from: new Date('2020-01-01'),
-                                    to: Date.now()
-                                })
-                            }
-                        })];
-                case 6:
-                    _a.sent();
-                    console.log('Venda criada com sucesso');
-                    return [3 /*break*/, 8];
-                case 7:
-                    error_8 = _a.sent();
-                    console.log('Erro ao criar venda:', error_8);
-                    return [3 /*break*/, 8];
-                case 8:
-                    i++;
-                    return [3 /*break*/, 1];
-                case 9: return [2 /*return*/];
-            }
-        });
-    });
-}
 function main() {
     return __awaiter(this, void 0, void 0, function () {
-        var quantidadeClientes, quantidadeCores, quantidadeVendas;
+        var quantidadeClientes, quantidadeCores;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     quantidadeClientes = 1000;
                     quantidadeCores = 5;
-                    quantidadeVendas = 5;
                     return [4 /*yield*/, seedEstoque()];
                 case 1:
                     _a.sent();
@@ -436,9 +379,6 @@ function main() {
                     _a.sent();
                     return [4 /*yield*/, seedCores(quantidadeCores)];
                 case 7:
-                    _a.sent();
-                    return [4 /*yield*/, seedVendas(quantidadeVendas)];
-                case 8:
                     _a.sent();
                     return [2 /*return*/];
             }

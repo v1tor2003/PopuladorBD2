@@ -55,6 +55,8 @@ exports.funcionarios = [
 ];
 exports.carros = [
     { modelo: 'Jetta', preco: 45000.00 },
+    { modelo: 'Variant', preco: 60000.00 },
+    { modelo: 'Fox', preco: 38000.00 },
     { modelo: 'Golf', preco: 50000.00 },
     { modelo: 'Saveiro', preco: 40000.00 },
     { modelo: 'Polo', preco: 35000.00 },

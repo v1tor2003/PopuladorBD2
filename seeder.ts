@@ -235,43 +235,9 @@ async function seedEstoque(quantidade?:number): Promise<void> {
   }
 }
 
-/**
- * Semeia a tabela de vendas.
- * @param {number} quantidade quantidade de vendas a serem inseridas
- * @returns {Promise<void>} a funcao eh um procedimento, sem retorno.
- */
-async function seedVendas(quantidade?:number): Promise<void> {
-  const qntd: number = quantidade ? quantidade : 0
-
-  for(let i = 0; i < qntd; i++){
-    try {
-      const min = 1
-      const maxCar = await prisma.carro.count()
-      const maxCliente = await prisma.cliente.count()
-      const maxFunc = await prisma.funcionario.count()
-
-      await prisma.venda.create({
-        data:{
-          id_carro_fk: Math.floor(Math.random() * (maxCar - min + 1)) + min,
-          id_cliente_fk: Math.floor(Math.random() * (maxCliente - min + 1)) + min,
-          id_funcionario_fk: Math.floor(Math.random() * (maxFunc - min + 1)) + min, 
-          data_venda: fakerPT_BR.date.between({
-            from: new Date('2020-01-01'),
-            to: Date.now()
-          })
-        }
-      })      
-      console.log('Venda criada com sucesso')
-    } catch (error) {
-      console.log('Erro ao criar venda:', error)    
-    }
-  }
-}
-
 async function main(){
   const quantidadeClientes = 1000
   const quantidadeCores = 5
-  const quantidadeVendas = 5
   await seedEstoque()
   await seedVersoes(versoes)
   await seedFuncionarios(funcionarios) 
@@ -279,7 +245,6 @@ async function main(){
   await seedMotores(motores)
   await seedCarros(carros)
   await seedCores(quantidadeCores)
-  await seedVendas(quantidadeVendas)
 }
 
 main()

@@ -1,3 +1,4 @@
+import { faker } from "@faker-js/faker";
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient()
@@ -120,37 +121,55 @@ async function CarroEstoque(): Promise<void> {
   }
   
 }
+
 /**
- * Relaciona carros existentes com clientes existentes
+ * Relaciona carros, clientes e funcionarios na criacao de uma nova venda
+ * @param {number} quantidade numero de vendas a serem criadas 
  * @returns {Promise<void>} procediemetno assincrono sem retorno
  */
-async function CarroCliente(): Promise<void> {
-  try {
-    const min = 1
-    const max = await prisma.carro.count()
-    const customerAmount = await prisma.cliente.count()
+async function Venda(quantidade?: number) {
+  try{
+    const qntd: number = quantidade ? quantidade : 0
 
-    for(let i = 1; i <= customerAmount; i++){
-      await prisma.carro_cliente.create({
-        data: {
-          id_carro: Math.floor(Math.random() * (max - min + 1)) + min,
-          id_cliente: i
+    const min = 1
+    const maxCar = await prisma.carro.count()
+    const maxFunc = await prisma.funcionario.count()
+    const maxCostumer = await prisma.cliente.count()
+
+    for(let i = 1; i <= qntd; i++){
+      let car = await prisma.carro.findUnique({
+        where: {
+          id_carro: Math.floor(Math.random() * (maxCar - min + 1)) + min
         }
       })
-      console.log('Carro relacionado a cliente com sucesso')
+
+      await prisma.venda.create({
+        data: {
+          data_venda: faker.date.between({
+            from: new Date(`${car?.ano_fab.toString()}-01-01`),
+            to: Date.now()
+          }),
+          id_carro_fk: car?.id_carro as number,
+          id_funcionario_fk: Math.floor(Math.random() * (maxFunc - min + 1)) + min,
+          id_cliente_fk: Math.floor(Math.random() * (maxCostumer - min + 1)) + min
+        }
+      })
+
+      console.log('Venda relacionada com sucesso')
     }
-    
-  } catch (error) {
-    console.log('Erro ao relacionar carro com cliente', error)
+
+  }catch(error){
+    console.log('Erro ao criar venda', error)
   }
 }
 
 async function main() {
+  const vendaQntd = 10
   await CarroCor()
   await CarroVersao()
   await CarroMotor()
   await CarroEstoque()
-  await CarroCliente()
+  await Venda(vendaQntd)
 }
 
 main()

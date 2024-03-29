@@ -36,6 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var faker_1 = require("@faker-js/faker");
 var client_1 = require("@prisma/client");
 var prisma = new client_1.PrismaClient();
 /**
@@ -248,55 +249,75 @@ function CarroEstoque() {
     });
 }
 /**
- * Relaciona carros existentes com clientes existentes
+ * Relaciona carros, clientes e funcionarios na criacao de uma nova venda
+ * @param {number} quantidade numero de vendas a serem criadas
  * @returns {Promise<void>} procediemetno assincrono sem retorno
  */
-function CarroCliente() {
+function Venda(quantidade) {
     return __awaiter(this, void 0, void 0, function () {
-        var min, max, customerAmount, i, error_5;
+        var qntd, min, maxCar, maxFunc, maxCostumer, i, car, error_5;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    _a.trys.push([0, 7, , 8]);
+                    _a.trys.push([0, 9, , 10]);
+                    qntd = quantidade ? quantidade : 0;
                     min = 1;
                     return [4 /*yield*/, prisma.carro.count()];
                 case 1:
-                    max = _a.sent();
-                    return [4 /*yield*/, prisma.cliente.count()];
+                    maxCar = _a.sent();
+                    return [4 /*yield*/, prisma.funcionario.count()];
                 case 2:
-                    customerAmount = _a.sent();
-                    i = 1;
-                    _a.label = 3;
+                    maxFunc = _a.sent();
+                    return [4 /*yield*/, prisma.cliente.count()];
                 case 3:
-                    if (!(i <= customerAmount)) return [3 /*break*/, 6];
-                    return [4 /*yield*/, prisma.carro_cliente.create({
-                            data: {
-                                id_carro: Math.floor(Math.random() * (max - min + 1)) + min,
-                                id_cliente: i
+                    maxCostumer = _a.sent();
+                    i = 1;
+                    _a.label = 4;
+                case 4:
+                    if (!(i <= qntd)) return [3 /*break*/, 8];
+                    return [4 /*yield*/, prisma.carro.findUnique({
+                            where: {
+                                id_carro: Math.floor(Math.random() * (maxCar - min + 1)) + min
                             }
                         })];
-                case 4:
-                    _a.sent();
-                    console.log('Carro relacionado a cliente com sucesso');
-                    _a.label = 5;
                 case 5:
-                    i++;
-                    return [3 /*break*/, 3];
-                case 6: return [3 /*break*/, 8];
+                    car = _a.sent();
+                    return [4 /*yield*/, prisma.venda.create({
+                            data: {
+                                data_venda: faker_1.faker.date.between({
+                                    from: new Date("".concat(car === null || car === void 0 ? void 0 : car.ano_fab.toString(), "-01-01")),
+                                    to: Date.now()
+                                }),
+                                id_carro_fk: car === null || car === void 0 ? void 0 : car.id_carro,
+                                id_funcionario_fk: Math.floor(Math.random() * (maxFunc - min + 1)) + min,
+                                id_cliente_fk: Math.floor(Math.random() * (maxCostumer - min + 1)) + min
+                            }
+                        })];
+                case 6:
+                    _a.sent();
+                    console.log('Venda relacionada com sucesso');
+                    _a.label = 7;
                 case 7:
+                    i++;
+                    return [3 /*break*/, 4];
+                case 8: return [3 /*break*/, 10];
+                case 9:
                     error_5 = _a.sent();
-                    console.log('Erro ao relacionar carro com cliente', error_5);
-                    return [3 /*break*/, 8];
-                case 8: return [2 /*return*/];
+                    console.log('Erro ao criar venda', error_5);
+                    return [3 /*break*/, 10];
+                case 10: return [2 /*return*/];
             }
         });
     });
 }
 function main() {
     return __awaiter(this, void 0, void 0, function () {
+        var vendaQntd;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, CarroCor()];
+                case 0:
+                    vendaQntd = 10;
+                    return [4 /*yield*/, CarroCor()];
                 case 1:
                     _a.sent();
                     return [4 /*yield*/, CarroVersao()];
@@ -308,7 +329,7 @@ function main() {
                     return [4 /*yield*/, CarroEstoque()];
                 case 4:
                     _a.sent();
-                    return [4 /*yield*/, CarroCliente()];
+                    return [4 /*yield*/, Venda(vendaQntd)];
                 case 5:
                     _a.sent();
                     return [2 /*return*/];

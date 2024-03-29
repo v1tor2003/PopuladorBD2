@@ -8,20 +8,19 @@ datasource db {
 }
 
 model carro {
-  id_carro      Int             @id @default(autoincrement())
-  modelo        String          @db.VarChar(50)
+  id_carro      Int      @id @default(autoincrement())
+  modelo        String   @db.VarChar(50)
   ano_fab       Int
   quilometragem Int?
-  preco_carro   Float           @db.Float
+  preco_carro   Float    @db.Float
   id_estoque_fk Int?
   id_cor_fk     Int?
   id_versao_fk  Int?
   id_motor_fk   Int?
-  cor           cor?            @relation(fields: [id_cor_fk], references: [id_cor], onDelete: Restrict, onUpdate: Restrict, map: "carro_ibfk_1")
-  versao        versao?         @relation(fields: [id_versao_fk], references: [id_versao], onDelete: Restrict, onUpdate: Restrict, map: "carro_ibfk_2")
-  motor         motor?          @relation(fields: [id_motor_fk], references: [id_motor], onDelete: Restrict, onUpdate: Restrict, map: "carro_ibfk_3")
-  estoque       estoque?        @relation(fields: [id_estoque_fk], references: [id_estoque], onDelete: Restrict, onUpdate: Restrict, map: "carro_ibfk_4")
-  carro_cliente carro_cliente[]
+  cor           cor?     @relation(fields: [id_cor_fk], references: [id_cor], onDelete: Restrict, onUpdate: Restrict, map: "carro_ibfk_1")
+  versao        versao?  @relation(fields: [id_versao_fk], references: [id_versao], onDelete: Restrict, onUpdate: Restrict, map: "carro_ibfk_2")
+  motor         motor?   @relation(fields: [id_motor_fk], references: [id_motor], onDelete: Restrict, onUpdate: Restrict, map: "carro_ibfk_3")
+  estoque       estoque? @relation(fields: [id_estoque_fk], references: [id_estoque], onDelete: Restrict, onUpdate: Restrict, map: "carro_ibfk_4")
   venda         venda[]
 
   @@index([id_cor_fk], map: "id_cor_fk")
@@ -30,21 +29,10 @@ model carro {
   @@index([id_versao_fk], map: "id_versao_fk")
 }
 
-model carro_cliente {
-  id_carro   Int
-  id_cliente Int
-  carro      carro   @relation(fields: [id_carro], references: [id_carro], onUpdate: Restrict, map: "carro_cliente_ibfk_1")
-  cliente    cliente @relation(fields: [id_cliente], references: [id_cliente], onUpdate: Restrict, map: "carro_cliente_ibfk_2")
-
-  @@id([id_carro, id_cliente])
-  @@index([id_cliente], map: "id_cliente")
-}
-
 model cliente {
-  id_cliente     Int             @id @default(autoincrement())
-  id_pessoa      Int             @unique(map: "id_pessoa")
-  carro_cliente  carro_cliente[]
-  detalhespessoa detalhespessoa  @relation(fields: [id_pessoa], references: [id_pessoa], onUpdate: Restrict, map: "cliente_ibfk_1")
+  id_cliente     Int            @id @default(autoincrement())
+  id_pessoa      Int            @unique(map: "id_pessoa")
+  detalhespessoa detalhespessoa @relation(fields: [id_pessoa], references: [id_pessoa], onUpdate: Restrict, map: "cliente_ibfk_1")
   venda          venda[]
 }
 
