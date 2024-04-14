@@ -1,3 +1,4 @@
+// RELACIONADOR - Script responsavel por relacionar os dados existentes no banco entre si
 import { faker } from "@faker-js/faker";
 import { PrismaClient } from "@prisma/client";
 
@@ -79,48 +80,6 @@ async function CarroMotor(): Promise<void> {
     console.log('Erro ao relacionar carros com motores', error)
   }
 }
-/**
- * Relaciona carros existentes com estoques existentes
- * @returns {Promise<void>} procediemetno assincrono sem retorno
- */
-async function CarroEstoque(): Promise<void> {
-  try {
-    const min = 1
-    const max = await prisma.estoque.count()
-    const carAmount = await prisma.carro.count()
-
-    for(let i = 1; i <= carAmount; i++){
-      let res = await prisma.carro.update({
-        where: {
-          id_carro: i
-        },
-        data:{
-          id_estoque_fk: Math.floor(Math.random() * (max - min + 1)) + min
-        }
-      })
-      if(res){
-        const e = await prisma.estoque.findUnique({
-          where:{
-            id_estoque: res.id_estoque_fk as number
-          }
-        })
-
-        await prisma.estoque.update({
-          where:{
-            id_estoque: res.id_estoque_fk as number
-          },
-          data:{
-            quantidade_veiculo: (e?.quantidade_veiculo as number) + 1
-          }
-        })
-      }
-    }
-    console.log('Carro relacionado a estoque com sucesso')
-  } catch (error) {
-    console.log('Erro ao relacionar carro com estoque', error)
-  }
-  
-}
 
 /**
  * Relaciona carros, clientes e funcionarios na criacao de uma nova venda
@@ -168,7 +127,6 @@ async function main() {
   await CarroCor()
   await CarroVersao()
   await CarroMotor()
-  await CarroEstoque()
   await Venda(vendaQntd)
 }
 

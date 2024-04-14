@@ -1,3 +1,4 @@
+// SEMEADOR - Script responsavel por inserir os dados gerados pelo faker ou de alguma fonte do diretorio do projeto
 import { PrismaClient } from '@prisma/client'
 import { funcionarios, carros, versoes, motores } from './seed';
 import { fakerPT_BR } from '@faker-js/faker';
@@ -128,8 +129,7 @@ async function seedCarros(carros: Carro[]) {
         data: {
           modelo: c.modelo,
           preco_carro: c.preco,
-          ano_fab: fakerPT_BR.number.int({min: 2000, max: 2024}),
-          quilometragem: fakerPT_BR.number.int({min: 0, max: 1000000})
+          ano_fab: fakerPT_BR.number.int({min: 2000, max: 2024})
         }
       })
 
@@ -217,28 +217,12 @@ async function seedMotores(motores: Motor[]) {
     }
   }
 }
-/**
- * Semeia a tabela de estoque.
- * @param {number} quantidade quantidade de estoques a serem inseridas
- * @returns {Promise<void>} a funcao eh um procedimento, sem retorno.
- */
-async function seedEstoque(quantidade?:number): Promise<void> {
-  const qntd: number = quantidade ? quantidade : 1
 
-  for(let i = 0; i < qntd; i++){
-    try {
-      await prisma.estoque.create({data:{quantidade_veiculo: 0}})      
-      console.log('Estoque criado com sucesso')
-    } catch (error) {
-      console.log('Erro ao criar estoque:', error)    
-    }
-  }
-}
 
 async function main(){
   const quantidadeClientes = 1000
   const quantidadeCores = 5
-  await seedEstoque()
+
   await seedVersoes(versoes)
   await seedFuncionarios(funcionarios) 
   await seedClientes(quantidadeClientes)
