@@ -15,14 +15,11 @@ model carro {
   quantidade   Int?    @default(0)
   id_cor_fk    Int?
   id_versao_fk Int?
-  id_motor_fk  Int?
   cor          cor?    @relation(fields: [id_cor_fk], references: [id_cor], onDelete: Restrict, onUpdate: Restrict, map: "carro_ibfk_1")
   versao       versao? @relation(fields: [id_versao_fk], references: [id_versao], onDelete: Restrict, onUpdate: Restrict, map: "carro_ibfk_2")
-  motor        motor?  @relation(fields: [id_motor_fk], references: [id_motor], onDelete: Restrict, onUpdate: Restrict, map: "carro_ibfk_3")
   venda        venda[]
 
   @@index([id_cor_fk], map: "id_cor_fk")
-  @@index([id_motor_fk], map: "id_motor_fk")
   @@index([id_versao_fk], map: "id_versao_fk")
 }
 
@@ -54,17 +51,10 @@ model funcionario {
   usuario_func        String?        @db.VarChar(40)
   senha_func          String?        @db.Char(16)
   salario_func        Float?         @db.Float
+  cargo_func          String?        @db.VarChar(30)
   id_detalhepessoa_fk Int            @unique(map: "id_detalhepessoa_fk")
   detalhespessoa      detalhespessoa @relation(fields: [id_detalhepessoa_fk], references: [id_detalhepessoa], onUpdate: Restrict, map: "funcionario_ibfk_1")
   venda               venda[]
-}
-
-model motor {
-  id_motor    Int     @id @default(autoincrement())
-  combustivel String? @db.Char(10)
-  cilindrada  Float?  @db.Float
-  potencia    Int
-  carro       carro[]
 }
 
 model venda {
@@ -84,7 +74,7 @@ model venda {
 
 model versao {
   id_versao    Int     @id @default(autoincrement())
-  nome_versao  String  @db.Char(10)
+  nome_versao  String  @unique(map: "nome_versao") @db.Char(10)
   preco_versao Float?  @db.Float
   carro        carro[]
 }

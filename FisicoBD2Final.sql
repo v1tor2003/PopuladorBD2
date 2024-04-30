@@ -14,6 +14,7 @@ CREATE TABLE Funcionario (
     usuario_func VARCHAR(40),
     senha_func CHAR(16),
     salario_func FLOAT,
+    cargo_func VARCHAR(30),
     
     id_detalhepessoa_fk INTEGER UNIQUE NOT NULL,
     FOREIGN KEY (id_detalhepessoa_fk) REFERENCES DetalhesPessoa(id_detalhepessoa)

@@ -192,3 +192,8 @@ No FisicoB2Final.sql:
 * Cliente, renomeação de chave estrangeira: id_pessoa -> id_detalhepessoa_fk
 * Funcionario, renomeação de chave estrangeira: id_pessoa -> id_detalhepessoa_fk
 
+Alterações (v1.2):
+-
+No FisicoB2Final.sql:
+
+* Motor, adição de atributo: combustivel -> tipo_combustivel

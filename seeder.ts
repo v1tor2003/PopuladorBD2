@@ -31,12 +31,6 @@ type Color = {
   preco_cor: number
 }
 
-type Motor = {
-  combustivel: string,
-  cilindrada: number,
-  potencia: number
-}
-
 /**
  * Formata numero de telefone gerado pelo faker, tira o +55.
  * @returns {string} retorna string representando numero formatado
@@ -122,14 +116,16 @@ async function seedClientes(quantidade: number): Promise<void> {
  */
 
 async function seedCarros(carros: Carro[]) {
-  
+  const min = 1
+  const max = 10
   for(const c of carros){
     try {
       await prisma.carro.create({
         data: {
           modelo: c.modelo,
           preco_carro: c.preco,
-          ano_fab: fakerPT_BR.number.int({min: 2000, max: 2024})
+          ano_fab: fakerPT_BR.number.int({min: 2000, max: 2024}),
+          quantidade: Math.floor(Math.random() * (max - min + 1)) + min
         }
       })
 
@@ -195,38 +191,14 @@ async function seedVersoes(versions: Version[]): Promise<void> {
   }
 }
 
-/**
- * Semeia a tabela de motores.
- * @param {Motor[]} motores vetor com os motores a serem inseridos
- * @returns {Promise<void>} a funcao eh um procedimento, sem retorno.
- */
-async function seedMotores(motores: Motor[]) {
-  for(const m of motores){
-    try {
-      await prisma.motor.create({
-        data: {
-          cilindrada: m.cilindrada,
-          combustivel: m.combustivel,
-          potencia: m.potencia
-        }
-      })
-      console.log('Motor criado com sucesso')
-    }
-    catch (error) {
-      console.log('Erro ao criar motor', error)
-    }
-  }
-}
-
 
 async function main(){
-  const quantidadeClientes = 1000
+  const quantidadeClientes = 10
   const quantidadeCores = 5
 
   await seedVersoes(versoes)
   await seedFuncionarios(funcionarios) 
   await seedClientes(quantidadeClientes)
-  await seedMotores(motores)
   await seedCarros(carros)
   await seedCores(quantidadeCores)
 }

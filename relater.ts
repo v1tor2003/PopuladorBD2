@@ -56,32 +56,6 @@ async function CarroVersao(): Promise<void> {
   }
 }
 /**
- * Relaciona carros existentes com motores existentes
- * @returns {Promise<void>} procediemetno assincrono sem retorno
- */
-async function CarroMotor(): Promise<void> {
-  try {
-    const min = 1
-    const max = await prisma.motor.count()
-    const carAmount = await prisma.carro.count()
-
-    for(let i = 1; i <= carAmount; i++){
-     await prisma.carro.update({
-      where: {
-        id_carro: i
-      },
-      data: {
-        id_motor_fk: Math.floor(Math.random() * (max - min + 1)) + min
-      }
-     })
-      console.log('Carro e motor relacionados com sucesso')
-    }
-  } catch (error) {
-    console.log('Erro ao relacionar carros com motores', error)
-  }
-}
-
-/**
  * Relaciona carros, clientes e funcionarios na criacao de uma nova venda
  * @param {number} quantidade numero de vendas a serem criadas 
  * @returns {Promise<void>} procediemetno assincrono sem retorno
@@ -126,7 +100,6 @@ async function main() {
   const vendaQntd = 10
   await CarroCor()
   await CarroVersao()
-  await CarroMotor()
   await Venda(vendaQntd)
 }
 
