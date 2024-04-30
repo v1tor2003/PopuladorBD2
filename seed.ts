@@ -7,7 +7,8 @@ export const funcionarios = [
       },
       usuario: 'luizinho',
       senha: 'academia',
-      salario: 2000.00
+      salario: 2000.00,
+      cargo: 'adm'
     },
     {
       detalhes: {
@@ -17,7 +18,8 @@ export const funcionarios = [
       },
       usuario: 'valtin',
       senha: 'amopaty',
-      salario: 5000.00
+      salario: 5000.00,
+      cargo: 'adm'
     },
     {
       detalhes: {
@@ -27,7 +29,8 @@ export const funcionarios = [
       },
       usuario: 'fontana',
       senha: '3600x',
-      salario: 10000.00
+      salario: 10000.00,
+      cargo: 'funcionario'
     },
     {
       detalhes: {
@@ -37,7 +40,8 @@ export const funcionarios = [
       },
       usuario: 'atsoc',
       senha: 'umdoistresquatro',
-      salario: 1000.00
+      salario: 1000.00,
+      cargo: 'adm'
     },
     {
       detalhes: {
@@ -47,7 +51,8 @@ export const funcionarios = [
       },
       usuario: 'gugudeneve',
       senha: 'guga123',
-      salario: 5000.00
+      salario: 5000.00,
+      cargo: 'adm'
     },
 ]
 
@@ -75,32 +80,4 @@ export const versoes = [
     nome: 'premium',
     preco: 5000.00
   }
-]
-
-export const motores = [
-  {
-    combustivel: 'gasolina',
-    cilindrada: 1.0,
-    potencia: 115
-  },
-  {
-    combustivel: 'etanol',
-    cilindrada: 1.0,
-    potencia: 90
-  },
-  {
-    combustivel: 'gasolina',
-    cilindrada: 1.5,
-    potencia: 150
-  },
-  {
-    combustivel: 'gasolina',
-    cilindrada: 2.0,
-    potencia: 220
-  },
-  {
-    combustivel: 'diesel',
-    cilindrada: 2.8,
-    potencia: 256
-  },
 ]

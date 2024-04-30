@@ -33,7 +33,7 @@ model cliente {
 model cor {
   id_cor    Int     @id @default(autoincrement())
   nome_cor  String  @db.VarChar(30)
-  preco_cor Float?  @db.Float
+  preco_cor Float?  @default(0) @db.Float
   carro     carro[]
 }
 

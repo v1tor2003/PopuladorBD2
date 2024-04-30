@@ -1,6 +1,6 @@
 // SEMEADOR - Script responsavel por inserir os dados gerados pelo faker ou de alguma fonte do diretorio do projeto
 import { PrismaClient } from '@prisma/client'
-import { funcionarios, carros, versoes, motores } from './seed';
+import { funcionarios, carros, versoes } from './seed';
 import { fakerPT_BR } from '@faker-js/faker';
 
 const prisma = new PrismaClient()
@@ -14,11 +14,12 @@ type Funcionario = {
   usuario: string,
   senha: string,
   salario: number
+  cargo: string
 }
 
 type Carro = {
   modelo: string,
-  preco: number
+  preco: number,
 }
 
 type Version = {
@@ -67,6 +68,7 @@ async function seedFuncionarios(funcionarios: Funcionario[]): Promise<void>{
           usuario_func: f.usuario,
           senha_func: f.senha,
           salario_func: f.salario,
+          cargo_func: f.cargo
         }
       })
 
@@ -116,7 +118,7 @@ async function seedClientes(quantidade: number): Promise<void> {
  */
 
 async function seedCarros(carros: Carro[]) {
-  const min = 1
+  const min = 2
   const max = 10
   for(const c of carros){
     try {
