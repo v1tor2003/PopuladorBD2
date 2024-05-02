@@ -16,8 +16,8 @@ export const funcionarios = [
         phone: '',
         nascimento: new Date('2003-09-29'),
       },
-      usuario: 'valtin',
-      senha: 'amopaty',
+      usuario: 'valter',
+      senha: 'senha',
       salario: 5000.00,
       cargo: 'adm'
     },

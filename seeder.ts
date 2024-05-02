@@ -2,6 +2,7 @@
 import { PrismaClient } from '@prisma/client'
 import { funcionarios, carros, versoes } from './seed';
 import { fakerPT_BR } from '@faker-js/faker';
+import { subYears } from 'date-fns';
 
 const prisma = new PrismaClient()
 
@@ -97,7 +98,7 @@ async function seedClientes(quantidade: number): Promise<void> {
               phone_pessoa: generatePhone(),
               nascimento_pessoa: fakerPT_BR.date.between({
                 from: new Date('1950-01-01'),
-                to: Date.now()
+                to: subYears(Date.now(), 18)
               })
             }
           }
@@ -154,7 +155,7 @@ async function seedCores(quantidade: number): Promise<void>{
     }
     color.nome_cor = fakerPT_BR.color.human()
     if(!colors.includes(color)) {
-      color.preco_cor = fakerPT_BR.number.float({min: 0, max: 1000})
+      color.preco_cor = Number.parseFloat(fakerPT_BR.number.float({min: 0, max: 1000}).toFixed(2))
       colors.push(color)
     }
   }
@@ -195,7 +196,7 @@ async function seedVersoes(versions: Version[]): Promise<void> {
 
 
 async function main(){
-  const quantidadeClientes = 10
+  const quantidadeClientes = 1000
   const quantidadeCores = 5
 
   await seedVersoes(versoes)
