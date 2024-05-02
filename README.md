@@ -197,3 +197,8 @@ Alterações (v1.2):
 No FisicoB2Final.sql:
 
 * Motor, adição de atributo: combustivel -> tipo_combustivel
+
+Alterações (v1.3):
+-
+No FisicoB2Final.sql:
+* Motor, tabela excluida
